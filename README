@@ -4,16 +4,12 @@ Library created to perform requests to Foursquare API on android devices.
 
 Usage:
 
-Create a new instance of EasyFoursquare and voilà.
+Create a new instance of EasyFoursquare or EasyFourquareAsync and voilà.
 
-Async Methods implemented:
+Sync and Async Methods implemented:
 
 getUserInfo
 getVenuesNearby
-
-Sync Methods implemented:
-
-//TODO
 
 Next version:
 A bunch of new API methods requests
