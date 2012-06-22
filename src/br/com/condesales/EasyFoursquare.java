@@ -1,15 +1,26 @@
 package br.com.condesales;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
-import br.com.condesales.listeners.UserInfoRequestListener;
+import br.com.condesales.models.User;
+import br.com.condesales.models.Venue;
 import br.com.condesales.tasks.FoursquareVenuesRequest;
 import br.com.condesales.tasks.SelfInfoRequest;
 
+/**
+ * Class to handle methods used to perform requests to FoursquareAPI and respond
+ * SYNChronously.
+ * 
+ * @author Felipe Conde <condesales@gmail.com>
+ * 
+ */
 public class EasyFoursquare {
 
 	private Activity mActivity;
@@ -37,10 +48,20 @@ public class EasyFoursquare {
 	 * @param listener
 	 *            As the request is asynchronous, listener used to retrieve the
 	 *            User object, containing the information.
+	 * @return The user information
 	 */
-	public void getUserInfo(UserInfoRequestListener listener) {
-		SelfInfoRequest request = new SelfInfoRequest(mActivity, listener);
+	public User getUserInfo() {
+		SelfInfoRequest request = new SelfInfoRequest(mActivity);
 		request.execute(mAccessToken);
+		User user = null;
+		try {
+			user = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return user;
 	}
 
 	/**
@@ -52,11 +73,19 @@ public class EasyFoursquare {
 	 *            As the request is asynchronous, listener used to retrieve the
 	 *            User object, containing the information.
 	 */
-	public void getVenuesNearby(FoursquareVenuesResquestListener listener,
-			VenuesCriteria criteria) {
+	public ArrayList<Venue> getVenuesNearby(VenuesCriteria criteria) {
 		FoursquareVenuesRequest request = new FoursquareVenuesRequest(
-				mActivity, listener, criteria);
+				mActivity, criteria);
 		request.execute(mAccessToken);
+		ArrayList<Venue> venues = new ArrayList<Venue>();
+		try {
+			venues = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return venues;
 	}
 
 	private boolean hasAccessToken() {
@@ -64,6 +93,11 @@ public class EasyFoursquare {
 		return !token.equals("");
 	}
 
+	/**
+	 * Gets the access token used to perform requests.
+	 * 
+	 * @return the token
+	 */
 	private String getAccessToken() {
 		if (mAccessToken.equals("")) {
 			SharedPreferences settings = mActivity.getSharedPreferences(

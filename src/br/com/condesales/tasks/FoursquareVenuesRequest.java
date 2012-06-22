@@ -13,7 +13,6 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.location.Location;
 import android.os.AsyncTask;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
@@ -26,7 +25,6 @@ public class FoursquareVenuesRequest extends
 
 	private Activity mActivity;
 	private ProgressDialog mProgress;
-	private Location mLocation;
 	private FoursquareVenuesResquestListener mListener;
 	private VenuesCriteria mCriteria;
 
@@ -34,6 +32,11 @@ public class FoursquareVenuesRequest extends
 			FoursquareVenuesResquestListener listener, VenuesCriteria criteria) {
 		mActivity = activity;
 		mListener = listener;
+		mCriteria = criteria;
+	}
+
+	public FoursquareVenuesRequest(Activity activity, VenuesCriteria criteria) {
+		mActivity = activity;
 		mCriteria = criteria;
 	}
 
@@ -65,10 +68,10 @@ public class FoursquareVenuesRequest extends
 					+ mCriteria.getQuery()
 					+ "&limit="
 					+ mCriteria.getQuantity()
-					+ "&intent="+mCriteria.getIntent().getValue()
+					+ "&intent="
+					+ mCriteria.getIntent().getValue()
 					+ "&radius="
-					+ mCriteria.getRadius()
-					+ "&oauth_token=" + access_token);
+					+ mCriteria.getRadius() + "&oauth_token=" + access_token);
 
 			// Get return code
 			int returnCode = Integer.parseInt(venuesJson.getJSONObject("meta")
@@ -85,13 +88,15 @@ public class FoursquareVenuesRequest extends
 					venues.add(venue);
 				}
 			} else {
-				mListener.onError(venuesJson.getJSONObject("meta")
-						.getString("errorDetail"));
+				if (mListener != null)
+					mListener.onError(venuesJson.getJSONObject("meta")
+							.getString("errorDetail"));
 			}
 
 		} catch (Exception exp) {
 			exp.printStackTrace();
-			mListener.onError(exp.toString());
+			if (mListener != null)
+				mListener.onError(exp.toString());
 		}
 		return venues;
 	}
@@ -99,7 +104,8 @@ public class FoursquareVenuesRequest extends
 	@Override
 	protected void onPostExecute(ArrayList<Venue> venues) {
 		mProgress.dismiss();
-		mListener.onVenuesFetched(venues);
+		if (mListener != null)
+			mListener.onVenuesFetched(venues);
 		super.onPostExecute(venues);
 	}
 

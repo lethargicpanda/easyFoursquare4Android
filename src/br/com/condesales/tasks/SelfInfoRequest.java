@@ -2,6 +2,7 @@ package br.com.condesales.tasks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,23 +16,24 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
-import br.com.condesales.listeners.ImageRequestListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.models.User;
 
 import com.google.gson.Gson;
 
-public class SelfInfoRequest extends AsyncTask<String, Integer, User> implements
-		ImageRequestListener {
+public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 
 	private Activity mActivity;
 	private ProgressDialog mProgress;
 	private UserInfoRequestListener mListener;
-	private User mUser;
 
 	public SelfInfoRequest(Activity activity, UserInfoRequestListener listener) {
 		mActivity = activity;
 		mListener = listener;
+	}
+
+	public SelfInfoRequest(Activity activity) {
+		mActivity = activity;
 	}
 
 	@Override
@@ -65,22 +67,40 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> implements
 					saveUserInfo(json);
 					user = gson.fromJson(json, User.class);
 				} else {
-					mListener.onError("Request Failed. Try again");
+					if (mListener != null)
+						mListener.onError("Request Failed. Try again");
 				}
 			} catch (Exception exp) {
-				mListener.onError(exp.toString());
+				if (mListener != null)
+					mListener.onError(exp.toString());
 			}
 		} else {
 			user = gson.fromJson(retrieveUserInfo(), User.class);
 		}
+
+		// request the user photo
+		UserImageRequest request = new UserImageRequest(mActivity);
+		request.execute(user.getPhoto());
+		try {
+			Bitmap bmp = request.get();
+			user.setBitmapPhoto(bmp);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			if (mListener != null)
+				mListener.onError(e.toString());
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+			if (mListener != null)
+				mListener.onError(e.toString());
+		}
 		return user;
 	}
-
+	
 	@Override
 	protected void onPostExecute(User result) {
-		mUser = result;
-		UserImageRequest request = new UserImageRequest(mActivity, this);
-		request.execute(mUser.getPhoto());
+		mProgress.dismiss();
+		if(mListener != null)
+			mListener.onUserInfoFetched(result);
 		super.onPostExecute(result);
 	}
 
@@ -122,18 +142,6 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> implements
 		SharedPreferences settings = mActivity.getSharedPreferences(
 				FoursquareConstants.SHARED_PREF_FILE, 0);
 		return settings.getString(FoursquareConstants.USER_INFO, "");
-	}
-
-	@Override
-	public void onImageFetched(Bitmap bmp) {
-		mUser.setBitmapPhoto(bmp);
-		mListener.onUserInfoFetched(mUser);
-		mProgress.dismiss();
-	}
-
-	@Override
-	public void onError(String error) {
-		mListener.onError(error);
 	}
 
 }

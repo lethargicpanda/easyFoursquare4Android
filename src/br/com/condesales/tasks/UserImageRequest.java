@@ -26,6 +26,10 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 		mActivity = activity;
 	}
 
+	public UserImageRequest(Activity activity) {
+		mActivity = activity;
+	}
+
 	@Override
 	protected Bitmap doInBackground(String... params) {
 
@@ -43,7 +47,8 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 			bmp = BitmapFactory.decodeStream(is);
 		} catch (Exception e) {
 			Log.e("Getting user image", e.toString());
-			mListener.onError(e.toString());
+			if (mListener != null)
+				mListener.onError(e.toString());
 		}
 		return bmp;
 	}
@@ -51,7 +56,8 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 	@Override
 	protected void onPostExecute(Bitmap bmp) {
 		saveFileInCache("foursquareUser", bmp);
-		mListener.onImageFetched(bmp);
+		if (mListener != null)
+			mListener.onImageFetched(bmp);
 		super.onPostExecute(bmp);
 	}
 
@@ -71,7 +77,8 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 			fOut = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			mListener.onError(e.toString());
+			if (mListener != null)
+				mListener.onError(e.toString());
 		}
 		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
 		try {
@@ -79,7 +86,8 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 			fOut.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-			mListener.onError(e.toString());
+			if (mListener != null)
+				mListener.onError(e.toString());
 		}
 	}
 }
