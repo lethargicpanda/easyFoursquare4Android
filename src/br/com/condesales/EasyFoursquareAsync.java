@@ -3,16 +3,19 @@ package br.com.condesales;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
+import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
+import br.com.condesales.listeners.CheckInListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
+import br.com.condesales.tasks.CheckInRequest;
 import br.com.condesales.tasks.FoursquareVenuesRequest;
 import br.com.condesales.tasks.SelfInfoRequest;
 
 /**
- * Class to handle methods used to perform requests to FoursquareAPI and
- * respond ASYNChronously.
+ * Class to handle methods used to perform requests to FoursquareAPI and respond
+ * ASYNChronously.
  * 
  * @author Felipe Conde <condesales@gmail.com>
  * 
@@ -63,6 +66,21 @@ public class EasyFoursquareAsync {
 			VenuesCriteria criteria) {
 		FoursquareVenuesRequest request = new FoursquareVenuesRequest(
 				mActivity, listener, criteria);
+		request.execute(mAccessToken);
+	}
+
+	/**
+	 * Checks in at a venue.
+	 * 
+	 * @param listener
+	 *            As the request is asynchronous, listener used to retrieve the
+	 *            User object, containing the information about the check in.
+	 * @param criteria
+	 *            The criteria to your search request
+	 */
+	public void checkIn(CheckInListener listener, CheckInCriteria criteria) {
+		CheckInRequest request = new CheckInRequest(mActivity, listener,
+				criteria);
 		request.execute(mAccessToken);
 	}
 

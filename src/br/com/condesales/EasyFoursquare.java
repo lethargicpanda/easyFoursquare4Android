@@ -6,8 +6,10 @@ import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
+import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
+import br.com.condesales.listeners.CheckInListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
 import br.com.condesales.models.User;
 import br.com.condesales.models.Venue;
@@ -86,6 +88,16 @@ public class EasyFoursquare {
 			e.printStackTrace();
 		}
 		return venues;
+	}
+
+	/**
+	 * Checks in at a venue.
+	 * 
+	 * @param criteria
+	 *            The criteria to your search request
+	 */
+	public void checkIn(CheckInCriteria criteria) {
+		
 	}
 
 	private boolean hasAccessToken() {
