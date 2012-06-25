@@ -80,26 +80,31 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 
 		// request the user photo
 		UserImageRequest request = new UserImageRequest(mActivity);
-		request.execute(user.getPhoto());
-		try {
-			Bitmap bmp = request.get();
-			user.setBitmapPhoto(bmp);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-			if (mListener != null)
-				mListener.onError(e.toString());
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-			if (mListener != null)
-				mListener.onError(e.toString());
+		Bitmap bitmap = request.getFileInCache();
+		if (bitmap == null) {
+			request.execute(user.getPhoto());
+			try {
+				Bitmap bmp = request.get();
+				user.setBitmapPhoto(bmp);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				if (mListener != null)
+					mListener.onError(e.toString());
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+				if (mListener != null)
+					mListener.onError(e.toString());
+			}
+		} else {
+			user.setBitmapPhoto(bitmap);
 		}
 		return user;
 	}
-	
+
 	@Override
 	protected void onPostExecute(User result) {
 		mProgress.dismiss();
-		if(mListener != null)
+		if (mListener != null)
 			mListener.onUserInfoFetched(result);
 		super.onPostExecute(result);
 	}

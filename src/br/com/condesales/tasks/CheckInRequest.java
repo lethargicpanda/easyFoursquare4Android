@@ -2,7 +2,9 @@ package br.com.condesales.tasks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -87,7 +89,7 @@ public class CheckInRequest extends AsyncTask<String, Integer, Checkin> {
 			// 200 = OK
 			if (returnCode == 200) {
 				Gson gson = new Gson();
-				JSONObject json = venuesJson.getJSONObject("response");
+				JSONObject json = venuesJson.getJSONObject("response").getJSONObject("checkin");
 				checkin = gson.fromJson(json.toString(), Checkin.class);
 			} else {
 				if (mListener != null)
@@ -128,9 +130,14 @@ public class CheckInRequest extends AsyncTask<String, Integer, Checkin> {
 			CheckInCriteria criteria) throws Exception {
 		HttpPost req = new HttpPost(uri);
 		HttpClient client = new DefaultHttpClient();
+		
+		//date required
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+		String formattedDate = df.format(new Date());
 		// create the params lists, an add some info on it..
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("venueId", criteria.getVenueId() + ""));
+		params.add(new BasicNameValuePair("v", formattedDate));
+		params.add(new BasicNameValuePair("venueId", criteria.getVenueId()));
 		if (criteria.getEventId() != null && !criteria.getEventId().equals("")) 
 			params.add(new BasicNameValuePair("eventId", criteria.getEventId()));
 		// only shout if you have something...

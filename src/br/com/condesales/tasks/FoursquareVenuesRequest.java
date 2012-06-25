@@ -2,7 +2,9 @@ package br.com.condesales.tasks;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -56,9 +58,15 @@ public class FoursquareVenuesRequest extends
 		ArrayList<Venue> venues = new ArrayList<Venue>();
 
 		try {
+			
+			//date required
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+			String formattedDate = df.format(new Date());
 			// Call Foursquare to get the Venues around
 			JSONObject venuesJson = executeHttpGet("https://api.foursquare.com/v2/venues/search"
-					+ "?ll="
+					+ "?v="
+					+ formattedDate
+					+ "&ll="
 					+ mCriteria.getLocation().getLatitude()
 					+ ","
 					+ mCriteria.getLocation().getLongitude()
@@ -80,8 +88,7 @@ public class FoursquareVenuesRequest extends
 			if (returnCode == 200) {
 				Gson gson = new Gson();
 				JSONArray json = venuesJson.getJSONObject("response")
-						.getJSONArray("groups").getJSONObject(0)
-						.getJSONArray("items");
+						.getJSONArray("venues");
 				for (int i = 0; i < json.length(); i++) {
 					Venue venue = gson.fromJson(json.getJSONObject(i)
 							.toString(), Venue.class);

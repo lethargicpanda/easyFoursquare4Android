@@ -20,6 +20,7 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 
 	private ImageRequestListener mListener;
 	private Activity mActivity;
+	private final String FILE_NAME = "foursquareUser";
 
 	public UserImageRequest(Activity activity, ImageRequestListener listener) {
 		mListener = listener;
@@ -55,7 +56,7 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 
 	@Override
 	protected void onPostExecute(Bitmap bmp) {
-		saveFileInCache("foursquareUser", bmp);
+		saveImageInCache(bmp);
 		if (mListener != null)
 			mListener.onImageFetched(bmp);
 		super.onPostExecute(bmp);
@@ -69,10 +70,10 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 	 * @param bitmap
 	 *            the bitmap to be saved
 	 */
-	private void saveFileInCache(String fileName, Bitmap bitmap) {
+	private void saveImageInCache(Bitmap bitmap) {
 		String path = mActivity.getCacheDir().toString();
 		OutputStream fOut = null;
-		File file = new File(path, fileName + ".jpg");
+		File file = new File(path, FILE_NAME + ".jpg");
 		try {
 			fOut = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
@@ -89,5 +90,20 @@ public class UserImageRequest extends AsyncTask<String, Integer, Bitmap> {
 			if (mListener != null)
 				mListener.onError(e.toString());
 		}
+	}
+
+	/**
+	 * Verifies if file already exits.
+	 * 
+	 * @return Bitmap containing the image. Null if file does not exists
+	 */
+	public Bitmap getFileInCache() {
+		File[] list = mActivity.getCacheDir().listFiles();
+		for (int i = 0; i < list.length; i++) {
+			if (list[i].getName().equals(FILE_NAME + ".jpg")) {
+				return BitmapFactory.decodeFile(list[i].getAbsolutePath());
+			}
+		}
+		return null;
 	}
 }
