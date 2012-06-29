@@ -11,9 +11,14 @@ Create a new instance of EasyFoursquare or EasyFourquareAsync, call a method and
 
 Sync and Async Methods implemented:
 
-getUserInfo
+getUserInfo //self
 getVenuesNearby
+getVenueDetails
 checkIn
+getCheckIns //any user
+getFriends //any user
+getVenuesHistory //any user
+
 
 Next version:
 A bunch of new API methods requests. Ask yours!
