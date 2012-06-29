@@ -1,17 +1,18 @@
 package br.com.condesales.models;
 
-import java.util.ArrayList;
 
 public class Venues {
+	
+	private Venue venue;
+	
+	private int beenHere;
 
-	public ArrayList<Venue> venues;
-
-	public ArrayList<Venue> getVenues() {
-		return venues;
+	public Venue getVenue() {
+		return venue;
 	}
 
-	public void setVenues(ArrayList<Venue> venues) {
-		this.venues = venues;
+	public int getBeenHere() {
+		return beenHere;
 	}
 
 }

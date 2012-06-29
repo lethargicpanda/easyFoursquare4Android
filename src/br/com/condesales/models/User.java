@@ -7,12 +7,21 @@ public class User {
 	private long id;
 	private String firstName;
 	private String lastName;
-	private String photo;	
 	private String gender;
 	private String homeCity;
 	private String bio;
 	private UserContact contact;
 	private Bitmap bitmapPhoto;
+	private String relationship;
+	private UserPhoto photo;
+
+	public String getRelationship() {
+		return relationship;
+	}
+
+	public String getPhoto() {
+		return photo.getPrefix() + photo.getSuffix();
+	}
 
 	public long getId() {
 		return id;
@@ -36,14 +45,6 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
 	}
 
 	public String getGender() {

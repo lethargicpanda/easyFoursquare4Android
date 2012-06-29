@@ -2,73 +2,76 @@ package br.com.condesales.models;
 
 public class Checkin {
 
-	public int count;
+	private int count;
 
-	public String id;
+	private String id;
 
-	public long createdAt;
+	private long createdAt;
 
-	public String type;
+	private String type;
 
-	public String timeZone;
+	private String shout;
 
-	public long timeZoneOffset;
+	private String timeZone;
 
-	public Venue venue;
+	private long timeZoneOffset;
+
+	private Venue venue;
+
+	private boolean like;
+
+	private Photos photos;
+
+	private Score score;
+
+	private User user;
+
+	public Score getScore() {
+		return score;
+	}
+
+	public User getUser() {
+		return user;
+	}
 
 	public int getCount() {
 		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public long getCreatedAt() {
 		return createdAt;
-	}
-
-	public void setCreatedAt(long createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public String getShout() {
+		return shout;
 	}
 
 	public String getTimeZone() {
 		return timeZone;
 	}
 
-	public void setTimeZone(String timeZone) {
-		this.timeZone = timeZone;
-	}
-
 	public long getTimeZoneOffset() {
 		return timeZoneOffset;
-	}
-
-	public void setTimeZoneOffset(long timeZoneOffset) {
-		this.timeZoneOffset = timeZoneOffset;
 	}
 
 	public Venue getVenue() {
 		return venue;
 	}
 
-	public void setVenue(Venue venue) {
-		this.venue = venue;
+	public boolean isLike() {
+		return like;
 	}
+
+	public Photos getPhotos() {
+		return photos;
+	}
+
 }

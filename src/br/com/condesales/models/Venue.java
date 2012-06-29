@@ -1,5 +1,7 @@
 package br.com.condesales.models;
 
+import java.util.ArrayList;
+
 public class Venue {
 
 	private String id;
@@ -8,13 +10,55 @@ public class Venue {
 
 	private Location location;
 
-	private Category[] categories;
+	private ArrayList<Category> categories;
 
 	private boolean verified;
 
 	private Statistics stats;
 
 	private HereNow beenHere;
+
+	private HereNow hereNow;
+
+	private long createdAt;
+
+	private Mayor mayor;
+
+	private String timeZone;
+
+	private String canonicalUrl;
+
+	private String shortUrl;
+
+	private boolean dislake;
+
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	public String getCanonicalUrl() {
+		return canonicalUrl;
+	}
+
+	public String getShortUrl() {
+		return shortUrl;
+	}
+
+	public boolean isDislake() {
+		return dislake;
+	}
+
+	public HereNow getHereNow() {
+		return hereNow;
+	}
+
+	public long getCreatedAt() {
+		return createdAt;
+	}
+
+	public Mayor getMayor() {
+		return mayor;
+	}
 
 	public String getId() {
 		return id;
@@ -28,7 +72,7 @@ public class Venue {
 		return location;
 	}
 
-	public Category[] getCategories() {
+	public ArrayList<Category> getCategories() {
 		return categories;
 	}
 

@@ -4,7 +4,12 @@ public class UserContact {
 	private String email;
 	private String facebook;
 	private String twitter;
+	private String phone;
 	
+	public String getPhone() {
+		return phone;
+	}
+
 	public String getEmail() {
 		return email;
 	}

@@ -9,12 +9,17 @@ import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
-import br.com.condesales.listeners.CheckInListener;
-import br.com.condesales.listeners.FoursquareVenuesResquestListener;
+import br.com.condesales.models.Checkin;
 import br.com.condesales.models.User;
 import br.com.condesales.models.Venue;
-import br.com.condesales.tasks.FoursquareVenuesRequest;
-import br.com.condesales.tasks.SelfInfoRequest;
+import br.com.condesales.models.Venues;
+import br.com.condesales.tasks.checkins.CheckInRequest;
+import br.com.condesales.tasks.users.GetCheckInsRequest;
+import br.com.condesales.tasks.users.GetFriendsRequest;
+import br.com.condesales.tasks.users.GetUserVenuesHistoryRequest;
+import br.com.condesales.tasks.users.SelfInfoRequest;
+import br.com.condesales.tasks.venues.FoursquareVenueDetailsRequest;
+import br.com.condesales.tasks.venues.FoursquareVenuesNearbyRequest;
 
 /**
  * Class to handle methods used to perform requests to FoursquareAPI and respond
@@ -54,7 +59,7 @@ public class EasyFoursquare {
 	 */
 	public User getUserInfo() {
 		SelfInfoRequest request = new SelfInfoRequest(mActivity);
-		request.execute(mAccessToken);
+		request.execute(getAccessToken());
 		User user = null;
 		try {
 			user = request.get();
@@ -76,9 +81,9 @@ public class EasyFoursquare {
 	 *            User object, containing the information.
 	 */
 	public ArrayList<Venue> getVenuesNearby(VenuesCriteria criteria) {
-		FoursquareVenuesRequest request = new FoursquareVenuesRequest(
+		FoursquareVenuesNearbyRequest request = new FoursquareVenuesNearbyRequest(
 				mActivity, criteria);
-		request.execute(mAccessToken);
+		request.execute(getAccessToken());
 		ArrayList<Venue> venues = new ArrayList<Venue>();
 		try {
 			venues = request.get();
@@ -89,6 +94,11 @@ public class EasyFoursquare {
 		}
 		return venues;
 	}
+	
+	public void getVenueDetail(String venueID){
+		FoursquareVenueDetailsRequest request = new FoursquareVenueDetailsRequest(mActivity, venueID);
+		request.execute(getAccessToken());
+	}
 
 	/**
 	 * Checks in at a venue.
@@ -96,8 +106,104 @@ public class EasyFoursquare {
 	 * @param criteria
 	 *            The criteria to your search request
 	 */
-	public void checkIn(CheckInCriteria criteria) {
-		
+	public Checkin checkIn(CheckInCriteria criteria) {
+		CheckInRequest request = new CheckInRequest(mActivity, criteria);
+		request.execute(getAccessToken());
+		Checkin checkin = null;
+		try {
+			checkin = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return checkin;
+	}
+
+	public ArrayList<Checkin> getcheckIns() {
+		GetCheckInsRequest request = new GetCheckInsRequest(mActivity);
+		request.execute(getAccessToken());
+		ArrayList<Checkin> checkins = null;
+		try {
+			checkins = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return checkins;
+	}
+
+	public ArrayList<Checkin> getcheckIns(String userID) {
+		GetCheckInsRequest request = new GetCheckInsRequest(mActivity, userID);
+		request.execute(getAccessToken());
+		ArrayList<Checkin> checkins = null;
+		try {
+			checkins = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return checkins;
+	}
+
+	public ArrayList<User> getFriends() {
+		GetFriendsRequest request = new GetFriendsRequest(mActivity);
+		request.execute(getAccessToken());
+		ArrayList<User> users = null;
+		try {
+			users = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return users;
+	}
+
+	public ArrayList<Venues> getVenuesHistory() {
+		GetUserVenuesHistoryRequest request = new GetUserVenuesHistoryRequest(
+				mActivity);
+		request.execute(getAccessToken());
+		ArrayList<Venues> venues = null;
+		try {
+			venues = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return venues;
+	}
+
+	public ArrayList<Venues> getVenuesHistory(String userID) {
+		GetUserVenuesHistoryRequest request = new GetUserVenuesHistoryRequest(
+				mActivity, userID);
+		request.execute(getAccessToken());
+		ArrayList<Venues> venues = null;
+		try {
+			venues = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return venues;
+	}
+
+	public ArrayList<User> getFriends(String userID) {
+		GetFriendsRequest request = new GetFriendsRequest(mActivity, userID);
+		request.execute(getAccessToken());
+		ArrayList<User> users = null;
+		try {
+			users = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 
 	private boolean hasAccessToken() {

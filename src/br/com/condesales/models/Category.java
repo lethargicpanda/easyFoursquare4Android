@@ -8,7 +8,13 @@ public class Category {
 
 	private String pluralName;
 
-	//private String icon;
+	private String shortName;
+
+	private Icon icon;
+
+	private String[] parents;
+
+	private boolean primary;
 
 	public String getId() {
 		return id;
@@ -22,10 +28,6 @@ public class Category {
 		return pluralName;
 	}
 
-//	public String getIcon() {
-//		return icon;
-//	}
-
 	public String[] getParents() {
 		return parents;
 	}
@@ -34,8 +36,12 @@ public class Category {
 		return primary;
 	}
 
-	private String[] parents;
+	public Icon getIcon() {
+		return icon;
+	}
 
-	private boolean primary;
+	public String getShortName() {
+		return shortName;
+	}
 
 }

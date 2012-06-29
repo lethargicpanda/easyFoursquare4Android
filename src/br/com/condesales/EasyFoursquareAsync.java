@@ -7,11 +7,19 @@ import br.com.condesales.criterias.CheckInCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 import br.com.condesales.listeners.CheckInListener;
+import br.com.condesales.listeners.FoursquareVenueDetailsResquestListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
+import br.com.condesales.listeners.FriendsListener;
+import br.com.condesales.listeners.GetCheckInsListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
-import br.com.condesales.tasks.CheckInRequest;
-import br.com.condesales.tasks.FoursquareVenuesRequest;
-import br.com.condesales.tasks.SelfInfoRequest;
+import br.com.condesales.listeners.VenuesHistoryListener;
+import br.com.condesales.tasks.checkins.CheckInRequest;
+import br.com.condesales.tasks.users.GetCheckInsRequest;
+import br.com.condesales.tasks.users.GetFriendsRequest;
+import br.com.condesales.tasks.users.GetUserVenuesHistoryRequest;
+import br.com.condesales.tasks.users.SelfInfoRequest;
+import br.com.condesales.tasks.venues.FoursquareVenueDetailsRequest;
+import br.com.condesales.tasks.venues.FoursquareVenuesNearbyRequest;
 
 /**
  * Class to handle methods used to perform requests to FoursquareAPI and respond
@@ -50,7 +58,7 @@ public class EasyFoursquareAsync {
 	 */
 	public void getUserInfo(UserInfoRequestListener listener) {
 		SelfInfoRequest request = new SelfInfoRequest(mActivity, listener);
-		request.execute(mAccessToken);
+		request.execute(getAccessToken());
 	}
 
 	/**
@@ -64,9 +72,14 @@ public class EasyFoursquareAsync {
 	 */
 	public void getVenuesNearby(FoursquareVenuesResquestListener listener,
 			VenuesCriteria criteria) {
-		FoursquareVenuesRequest request = new FoursquareVenuesRequest(
+		FoursquareVenuesNearbyRequest request = new FoursquareVenuesNearbyRequest(
 				mActivity, listener, criteria);
-		request.execute(mAccessToken);
+		request.execute(getAccessToken());
+	}
+	
+	public void getVenueDetail(String venueID ,FoursquareVenueDetailsResquestListener listener){
+		FoursquareVenueDetailsRequest request = new FoursquareVenueDetailsRequest(mActivity,listener, venueID);
+		request.execute(getAccessToken());
 	}
 
 	/**
@@ -81,7 +94,41 @@ public class EasyFoursquareAsync {
 	public void checkIn(CheckInListener listener, CheckInCriteria criteria) {
 		CheckInRequest request = new CheckInRequest(mActivity, listener,
 				criteria);
+		request.execute(getAccessToken());
+	}
+
+	public void getCheckIns(GetCheckInsListener listener) {
+		GetCheckInsRequest request = new GetCheckInsRequest(mActivity, listener);
+		request.execute(getAccessToken());
+	}
+
+	public void getCheckIns(GetCheckInsListener listener, String userID) {
+		GetCheckInsRequest request = new GetCheckInsRequest(mActivity,
+				listener, userID);
+		request.execute(getAccessToken());
+	}
+
+	public void getFriends(FriendsListener listener) {
+		GetFriendsRequest request = new GetFriendsRequest(mActivity, listener);
 		request.execute(mAccessToken);
+	}
+
+	public void getFriends(FriendsListener listener, String userID) {
+		GetFriendsRequest request = new GetFriendsRequest(mActivity, listener,
+				userID);
+		request.execute(getAccessToken());
+	}
+
+	public void getVenuesHistory(VenuesHistoryListener listener) {
+		GetUserVenuesHistoryRequest request = new GetUserVenuesHistoryRequest(
+				mActivity, listener);
+		request.execute(getAccessToken());
+	}
+
+	public void getVenuesHistory(VenuesHistoryListener listener, String userID) {
+		GetUserVenuesHistoryRequest request = new GetUserVenuesHistoryRequest(
+				mActivity, listener, userID);
+		request.execute(getAccessToken());
 	}
 
 	private boolean hasAccessToken() {

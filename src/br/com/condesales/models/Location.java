@@ -12,11 +12,25 @@ public class Location {
 
 	private String country;
 
+	private String cc;
+
 	private double lat;
 
 	private double lng;
 
 	private double distance;
+
+	private String postalcode;
+
+	private String crossStreet;
+
+	public String getPostalcode() {
+		return postalcode;
+	}
+
+	public String getCrossStreet() {
+		return crossStreet;
+	}
 
 	public String getAddress() {
 		return address;
@@ -48,6 +62,14 @@ public class Location {
 
 	public double getDistance() {
 		return distance;
+	}
+
+	public String getCc() {
+		return cc;
+	}
+
+	public void setCc(String cc) {
+		this.cc = cc;
 	}
 
 }
