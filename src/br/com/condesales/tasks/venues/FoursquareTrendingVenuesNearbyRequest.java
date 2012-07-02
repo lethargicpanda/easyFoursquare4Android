@@ -64,7 +64,7 @@ public class FoursquareTrendingVenuesNearbyRequest extends
 
 		try {
 			
-			
+			//date required
 			String apiDate = FoursquareConstants.API_DATE_VERSION;
 			// Call Foursquare to get the Venues around
 			JSONObject venuesJson = executeHttpGet("https://api.foursquare.com/v2/venues/trending?"

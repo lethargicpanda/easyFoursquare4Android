@@ -57,12 +57,11 @@ public class SelfInfoRequest extends AsyncTask<String, Integer, User> {
 		if (token != null && retrieveUserInfo().equals("")) {
 			try {
 				//date required
-				SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-				String formattedDate = df.format(new Date());
+				String apiDateVersion = FoursquareConstants.API_DATE_VERSION;
 				// Get userdata of myself
 				JSONObject userJson = executeHttpGet("https://api.foursquare.com/v2/"
 						+ "users/self" 
-						+ "?v=" + formattedDate
+						+ "?v=" + apiDateVersion
 						+ "&oauth_token=" + token);
 				// Get return code
 				int returnCode = Integer.parseInt(userJson

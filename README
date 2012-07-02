@@ -14,10 +14,12 @@ Sync and Async Methods implemented:
 getUserInfo //any user
 getVenuesNearby
 getVenueDetails
+getTrendingVenuesNearby
 checkIn
 getCheckIns //any user
 getFriends //any user
 getVenuesHistory //any user
+
 
 
 Next version:
