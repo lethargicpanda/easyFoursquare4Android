@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.CheckInCriteria;
+import br.com.condesales.criterias.TrendingVenuesCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 import br.com.condesales.models.Checkin;
@@ -18,6 +19,7 @@ import br.com.condesales.tasks.users.GetCheckInsRequest;
 import br.com.condesales.tasks.users.GetFriendsRequest;
 import br.com.condesales.tasks.users.GetUserVenuesHistoryRequest;
 import br.com.condesales.tasks.users.SelfInfoRequest;
+import br.com.condesales.tasks.venues.FoursquareTrendingVenuesNearbyRequest;
 import br.com.condesales.tasks.venues.FoursquareVenueDetailsRequest;
 import br.com.condesales.tasks.venues.FoursquareVenuesNearbyRequest;
 
@@ -72,7 +74,7 @@ public class EasyFoursquare {
 	}
 
 	/**
-	 * Requests the nearby Venues.
+	 * Requests nearby Venues.
 	 * 
 	 * @param criteria
 	 *            The criteria to your search request
@@ -94,6 +96,28 @@ public class EasyFoursquare {
 		}
 		return venues;
 	}
+	
+	
+	/**
+	 * Requests nearby Venues that are trending.
+	 * @param criteria
+	 * 				The criteria to your search request
+	 * 
+	 */
+	public ArrayList<Venue> getTrendingVenuesNearby(TrendingVenuesCriteria criteria) {
+		FoursquareTrendingVenuesNearbyRequest request = new FoursquareTrendingVenuesNearbyRequest(mActivity, criteria);
+		request.execute(getAccessToken());
+		ArrayList<Venue> venues = new ArrayList<Venue>();
+		try {
+			venues = request.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return venues;
+	}
+	
 	
 	public void getVenueDetail(String venueID){
 		FoursquareVenueDetailsRequest request = new FoursquareVenueDetailsRequest(mActivity, venueID);

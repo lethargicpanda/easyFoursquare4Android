@@ -1,23 +1,30 @@
 package br.com.condesales;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.CheckInCriteria;
+import br.com.condesales.criterias.TrendingVenuesCriteria;
 import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.AccessTokenRequestListener;
 import br.com.condesales.listeners.CheckInListener;
+import br.com.condesales.listeners.FoursquareTrendingVenuesResquestListener;
 import br.com.condesales.listeners.FoursquareVenueDetailsResquestListener;
 import br.com.condesales.listeners.FoursquareVenuesResquestListener;
 import br.com.condesales.listeners.FriendsListener;
 import br.com.condesales.listeners.GetCheckInsListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.listeners.VenuesHistoryListener;
+import br.com.condesales.models.Venue;
 import br.com.condesales.tasks.checkins.CheckInRequest;
 import br.com.condesales.tasks.users.GetCheckInsRequest;
 import br.com.condesales.tasks.users.GetFriendsRequest;
 import br.com.condesales.tasks.users.GetUserVenuesHistoryRequest;
 import br.com.condesales.tasks.users.SelfInfoRequest;
+import br.com.condesales.tasks.venues.FoursquareTrendingVenuesNearbyRequest;
 import br.com.condesales.tasks.venues.FoursquareVenueDetailsRequest;
 import br.com.condesales.tasks.venues.FoursquareVenuesNearbyRequest;
 
@@ -75,6 +82,20 @@ public class EasyFoursquareAsync {
 		FoursquareVenuesNearbyRequest request = new FoursquareVenuesNearbyRequest(
 				mActivity, listener, criteria);
 		request.execute(getAccessToken());
+	}
+	
+	/**
+	 * Requests the nearby Venus that are trending.
+	 * @param listener
+	 * 				As the request is asynchronous, listener used to retrieve the
+	 *            	User object, containing the information.
+	 * @param criteria
+	 * 				The criteria to your search request
+	 */
+	public void getTrendingVenuesNearby(FoursquareTrendingVenuesResquestListener listener, TrendingVenuesCriteria criteria) {
+		FoursquareTrendingVenuesNearbyRequest request = new FoursquareTrendingVenuesNearbyRequest(mActivity, listener,criteria);
+		request.execute(getAccessToken());
+		
 	}
 	
 	public void getVenueDetail(String venueID ,FoursquareVenueDetailsResquestListener listener){
