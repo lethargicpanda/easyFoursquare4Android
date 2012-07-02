@@ -10,7 +10,11 @@ public class Category {
 
 	private String shortName;
 
-	private Icon icon;
+	//TODO Icon model commented. It is currently left a side while foursquare api diverges in some venue responses.
+	/*private Icon icon;
+	public Icon getIcon() {
+		return icon;
+	}*/
 
 	private String[] parents;
 
@@ -36,9 +40,6 @@ public class Category {
 		return primary;
 	}
 
-	public Icon getIcon() {
-		return icon;
-	}
 
 	public String getShortName() {
 		return shortName;
