@@ -1,13 +1,18 @@
 package br.com.condesales.models;
 
-
 public class Icon {
 
 	private String prefix;
-	
+
 	private String name;
-	
+
 	private int[] sizes;
+
+	private String suffix;
+
+	public String getSuffix() {
+		return suffix;
+	}
 
 	public String getPrefix() {
 		return prefix;
@@ -32,5 +37,5 @@ public class Icon {
 	public void setSizes(int[] sizes) {
 		this.sizes = sizes;
 	}
-	
+
 }
