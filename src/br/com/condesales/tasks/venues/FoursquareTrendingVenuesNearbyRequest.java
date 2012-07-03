@@ -2,9 +2,7 @@ package br.com.condesales.tasks.venues;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -16,12 +14,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.provider.SyncStateContract.Constants;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.criterias.TrendingVenuesCriteria;
-import br.com.condesales.criterias.VenuesCriteria;
 import br.com.condesales.listeners.FoursquareTrendingVenuesResquestListener;
-import br.com.condesales.listeners.FoursquareVenuesResquestListener;
 import br.com.condesales.models.Venue;
 
 import com.google.gson.Gson;

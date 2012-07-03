@@ -1,7 +1,5 @@
 package br.com.condesales;
 
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -18,7 +16,6 @@ import br.com.condesales.listeners.FriendsListener;
 import br.com.condesales.listeners.GetCheckInsListener;
 import br.com.condesales.listeners.UserInfoRequestListener;
 import br.com.condesales.listeners.VenuesHistoryListener;
-import br.com.condesales.models.Venue;
 import br.com.condesales.tasks.checkins.CheckInRequest;
 import br.com.condesales.tasks.users.GetCheckInsRequest;
 import br.com.condesales.tasks.users.GetFriendsRequest;

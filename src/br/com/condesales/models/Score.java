@@ -8,4 +8,20 @@ public class Score {
 
 	private ArrayList<ScoreItem> scores;
 
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public ArrayList<ScoreItem> getScores() {
+		return scores;
+	}
+
+	public void setScores(ArrayList<ScoreItem> scores) {
+		this.scores = scores;
+	}
+
 }

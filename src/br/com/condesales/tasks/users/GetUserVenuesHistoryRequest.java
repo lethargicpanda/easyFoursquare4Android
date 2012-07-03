@@ -2,9 +2,7 @@ package br.com.condesales.tasks.users;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -18,7 +16,6 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import br.com.condesales.constants.FoursquareConstants;
 import br.com.condesales.listeners.VenuesHistoryListener;
-import br.com.condesales.models.Venue;
 import br.com.condesales.models.Venues;
 
 import com.google.gson.Gson;
